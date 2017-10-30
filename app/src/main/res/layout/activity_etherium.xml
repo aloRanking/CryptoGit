@@ -11,13 +11,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center_horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="84dp"
             android:src="@drawable/eth_logo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:text="click cards for conversion"/>
 
     </LinearLayout>
 
