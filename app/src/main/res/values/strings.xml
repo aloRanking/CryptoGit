@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CryptoGit</string>
+    <string name="app_info"><![CDATA[This App shows the latest exchange rate   between cryptocurencies(BTC & ETH)   and 20 major world currencies]]></string>
+</resources>
