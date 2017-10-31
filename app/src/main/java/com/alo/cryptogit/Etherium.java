@@ -119,7 +119,7 @@ public class Etherium extends AppCompatActivity {
                             currency = new CurrencyItems("USD", USD, "USA");
                             currencyItemsList.add(currency);
 
-                            currency = new CurrencyItems("EUR", EUR, ":GERMANY");
+                            currency = new CurrencyItems("EUR", EUR, "GERMANY");
                             currencyItemsList.add(currency);
 
                             currency = new CurrencyItems("GBP", GBP, "UK");
