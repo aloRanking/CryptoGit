@@ -24,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="26sp"
-            android:text="click the cards conversion"/>
+            android:textSize="24sp"
+            android:text="click the cards for conversion"/>
 
     </LinearLayout>
 
