@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,15 +24,15 @@ import java.util.List;
 
 public class Bitcoin extends AppCompatActivity {
 
-    private static final String TAG ="Bitcoin";
+    private static final String TAG = "Bitcoin";
     private ProgressDialog pDialog;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
-    private List<CurrencyItems>currencyItemsList;
+    private List<CurrencyItems> currencyItemsList;
 
     String currencies = "NGN,USD,EUR,GBP,RUB,KWD,BHD,EGP,INR,KES,CNY,AUD,ZAR,CHF,SAR,JPY,CAD,BGN,CLP,OMR,QAR";
     private String URL_DATA = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC&tsyms=" + currencies;
-    String NGN,USD,EUR,GBP,RUB,KWD,BHD,EGP,INR,KES,CNY,AUD,ZAR,CHF,SAR,JPY,CAD,BGN,CLP,OMR,QAR;
+    String NGN, USD, EUR, GBP, RUB, KWD, BHD, EGP, INR, KES, CNY, AUD, ZAR, CHF, SAR, JPY, CAD, BGN, CLP, OMR, QAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,9 @@ public class Bitcoin extends AppCompatActivity {
 
     private void loadRecyclerView() {
 
-         pDialog = new ProgressDialog(Bitcoin.this);
+        pDialog = new ProgressDialog(Bitcoin.this);
         pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(true);
+        pDialog.setCancelable(false);
         pDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
@@ -84,9 +85,9 @@ public class Bitcoin extends AppCompatActivity {
                         pDialog.dismiss();
 
                         try {
-                            JSONObject jsonObject =new JSONObject(s);
+                            JSONObject jsonObject = new JSONObject(s);
                             String BTC = jsonObject.getString("BTC");
-                           JSONObject o = new JSONObject(BTC);
+                            JSONObject o = new JSONObject(BTC);
 
                             NGN = o.getString("NGN");
                             USD = o.getString("USD");
@@ -111,17 +112,16 @@ public class Bitcoin extends AppCompatActivity {
                             QAR = o.getString("QAR");
 
 
-
                             CurrencyItems currency = new CurrencyItems("NGN", NGN, "NIGERIA");
                             currencyItemsList.add(currency);
 
-                             currency = new CurrencyItems("USD", USD, "USA");
+                            currency = new CurrencyItems("USD", USD, "USA");
                             currencyItemsList.add(currency);
 
-                             currency = new CurrencyItems("EUR", EUR, "GERMANY");
+                            currency = new CurrencyItems("EUR", EUR, "GERMANY");
                             currencyItemsList.add(currency);
 
-                             currency = new CurrencyItems("GBP", GBP, "UK");
+                            currency = new CurrencyItems("GBP", GBP, "UK");
                             currencyItemsList.add(currency);
 
                             currency = new CurrencyItems("RUB", RUB, "RUSSIA");
@@ -190,6 +190,8 @@ public class Bitcoin extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        Toast.makeText(getApplicationContext(), "Unable to retrieve information ", Toast.LENGTH_SHORT)
+                                .show();
                     }
                 });
 

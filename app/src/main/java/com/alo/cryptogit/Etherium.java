@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,7 +31,7 @@ public class Etherium extends AppCompatActivity {
 
     String currencies = "NGN,USD,EUR,GBP,RUB,KWD,BHD,EGP,INR,KES,CNY,AUD,ZAR,CHF,SAR,JPY,CAD,BGN,CLP,OMR,QAR";
     private String URL_DATA = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC&tsyms=" + currencies;
-    String NGN,USD,EUR,GBP,RUB,KWD,BHD,EGP,INR,KES,CNY,AUD,ZAR,CHF,SAR,JPY,CAD,BGN,CLP,OMR,QAR;
+    String NGN, USD, EUR, GBP, RUB, KWD, BHD, EGP, INR, KES, CNY, AUD, ZAR, CHF, SAR, JPY, CAD, BGN, CLP, OMR, QAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +70,12 @@ public class Etherium extends AppCompatActivity {
     }
 
 
-   public void loadRecylerView(){
+    public void loadRecylerView() {
 
 
         pDialog = new ProgressDialog(Etherium.this);
         pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(true);
+        pDialog.setCancelable(false);
         pDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
@@ -85,7 +86,7 @@ public class Etherium extends AppCompatActivity {
                         pDialog.dismiss();
 
                         try {
-                            JSONObject jsonObject =new JSONObject(s);
+                            JSONObject jsonObject = new JSONObject(s);
                             String ETH = jsonObject.getString("ETH");
                             JSONObject o = new JSONObject(ETH);
 
@@ -110,7 +111,6 @@ public class Etherium extends AppCompatActivity {
                             CLP = o.getString("CLP");
                             OMR = o.getString("OMR");
                             QAR = o.getString("QAR");
-
 
 
                             CurrencyItems currency = new CurrencyItems("NGN", NGN, "NIGERIA");
@@ -190,6 +190,8 @@ public class Etherium extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        Toast.makeText(getApplicationContext(), "Unable to retrieve information ", Toast.LENGTH_SHORT)
+                                .show();
                     }
                 });
 
@@ -197,9 +199,7 @@ public class Etherium extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
-
     }
-
 
 
 }

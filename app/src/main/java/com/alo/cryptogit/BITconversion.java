@@ -25,34 +25,30 @@ public class BITconversion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bitconversion);
 
-        convertRate = (TextView)findViewById(R.id.top);
-        crypto_currency_editext = (EditText)findViewById(R.id.converted_amount);
-        base_currency_editext = (EditText)findViewById(R.id.base_currency);
-        country_code = (TextView)findViewById(R.id.countrycode);
-        currencies = (TextView)findViewById(R.id.currencies);
+        convertRate = (TextView) findViewById(R.id.top);
+        crypto_currency_editext = (EditText) findViewById(R.id.converted_amount);
+        base_currency_editext = (EditText) findViewById(R.id.base_currency);
+        country_code = (TextView) findViewById(R.id.countrycode);
+        currencies = (TextView) findViewById(R.id.currencies);
 
 
         Bundle bundle = getIntent().getBundleExtra("BIT_value");
-        if (bundle == null){
+        if (bundle == null) {
             finish();
-        }else {
+        } else {
 
             String code = bundle.getString("country_code");
-             value = bundle.getString("Bit");
+            value = bundle.getString("Bit");
 
             convertRate.setText(value);
             currencies.setText(code);
             country_code.setText(code);
 
 
-
         }
 
         crypto_currency_editext.addTextChangedListener(watch1);
-
         base_currency_editext.addTextChangedListener(watch2);
-
-
 
 
     }
@@ -68,7 +64,7 @@ public class BITconversion extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             float bitcoinRate;
-            int bitcoin ;
+            int bitcoin;
             double answer;
             String value2;
             double base_currency;
@@ -77,15 +73,15 @@ public class BITconversion extends AppCompatActivity {
             bitcoin = 1;
             value2 = crypto_currency_editext.getText().toString();
 
-            if (!value2.isEmpty()){
+            if (!value2.isEmpty()) {
                 base_currency_editext.removeTextChangedListener(watch2);
                 base_currency = Float.parseFloat(value2);
-                answer = (base_currency * bitcoinRate)/bitcoin;
-                base_currency_editext.setText(String.format(Locale.getDefault(),"%.2f", answer));
+                answer = (base_currency * bitcoinRate) / bitcoin;
+                base_currency_editext.setText(String.format(Locale.getDefault(), "%.2f", answer));
                 base_currency_editext.addTextChangedListener(watch2);
             }
 
-            if (value2.isEmpty()){
+            if (value2.isEmpty()) {
                 base_currency_editext.removeTextChangedListener(watch2);
                 base_currency_editext.setText("");
                 base_currency_editext.addTextChangedListener(watch2);
@@ -108,7 +104,7 @@ public class BITconversion extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             float bitcoinRate;
-            int bitcoin ;
+            int bitcoin;
             double answer;
             String value2;
             double base_currency;
@@ -117,15 +113,15 @@ public class BITconversion extends AppCompatActivity {
             bitcoin = 1;
             value2 = base_currency_editext.getText().toString();
 
-            if (!value2.isEmpty()){
+            if (!value2.isEmpty()) {
                 crypto_currency_editext.removeTextChangedListener(watch1);
                 base_currency = Float.parseFloat(value2);
-                answer = (base_currency * bitcoin)/bitcoinRate;
-                crypto_currency_editext.setText(String.format(Locale.getDefault(),"%.2f", answer));
+                answer = (base_currency * bitcoin) / bitcoinRate;
+                crypto_currency_editext.setText(String.format(Locale.getDefault(), "%.2f", answer));
                 crypto_currency_editext.addTextChangedListener(watch1);
             }
 
-            if (value2.isEmpty()){
+            if (value2.isEmpty()) {
                 crypto_currency_editext.removeTextChangedListener(watch1);
                 crypto_currency_editext.setText("");
                 crypto_currency_editext.addTextChangedListener(watch1);
