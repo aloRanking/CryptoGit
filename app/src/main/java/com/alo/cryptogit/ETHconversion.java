@@ -11,23 +11,22 @@ import java.util.Locale;
 
 public class ETHconversion extends AppCompatActivity {
 
-    private TextView convertRate;
-    private EditText base_text;
+    private EditText base_currency_editext;
     private EditText crypto_currency_editext;
-    private TextView country_code;
-    private TextView currencies;
-    String value;
+    String xchange_rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ethconversion);
 
-        convertRate = (TextView)findViewById(R.id.top);
+
         crypto_currency_editext = (EditText)findViewById(R.id.converted_amount);
-        base_text = (EditText)findViewById(R.id.base_currency);
-        country_code = (TextView)findViewById(R.id.countrycode);
-        currencies = (TextView)findViewById(R.id.currencies);
+        base_currency_editext = (EditText)findViewById(R.id.base_currency);
+
+        TextView country_code = (TextView) findViewById(R.id.countrycode);
+        TextView currencies = (TextView) findViewById(R.id.currencies);
+        TextView convertRate = (TextView) findViewById(R.id.top);
 
 
         Bundle bundle = getIntent().getBundleExtra("ETH_value");
@@ -36,16 +35,17 @@ public class ETHconversion extends AppCompatActivity {
         }else {
 
             String code = bundle.getString("country_code");
-            value = bundle.getString("Eth");
+            xchange_rate = bundle.getString("Eth");
 
-            convertRate.setText(value);
+            convertRate.setText(xchange_rate);
             currencies.setText(code);
             country_code.setText(code);
 
         }
 
+        //added Textwatcher
         crypto_currency_editext.addTextChangedListener(watch1);
-        base_text.addTextChangedListener(watch2);
+        base_currency_editext.addTextChangedListener(watch2);
     }
 
     TextWatcher watch1 = new TextWatcher() {
@@ -58,29 +58,34 @@ public class ETHconversion extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             float etheriumRate;
-            int etherium;
+            int etherium= 1;
             double answer;
-            String value2;
+            String inputValue;
             double base_currency;
 
-            etheriumRate = Float.parseFloat(value);
-            etherium = 1;
-            value2 = crypto_currency_editext.getText().toString();
+            //convert the exchange rate(string) to float for easy calculation
+            etheriumRate = Float.parseFloat(xchange_rate);
+            //getting data from editText
+            inputValue = crypto_currency_editext.getText().toString();
 
-            if (!value2.isEmpty()) {
+            if (!inputValue.isEmpty()) {
+                base_currency_editext.removeTextChangedListener(watch2);
 
-                base_text.removeTextChangedListener(watch2);
-                base_currency = Float.parseFloat(value2);
+                //converting inputValue to float
+                base_currency = Float.parseFloat(inputValue);
+
+                //conversion calculation
                 answer = (base_currency * etheriumRate) / etherium;
-                base_text.setText(String.format(Locale.getDefault(), "%.2f", answer));
-                base_text.addTextChangedListener(watch2);
+
+                base_currency_editext.setText(String.format(Locale.getDefault(), "%.2f", answer));
+                base_currency_editext.addTextChangedListener(watch2);
 
             }
 
-            if (value2.isEmpty()){
-                base_text.removeTextChangedListener(watch2);
-                base_text.setText("");
-                base_text.addTextChangedListener(watch2);
+            if (inputValue.isEmpty()){
+                base_currency_editext.removeTextChangedListener(watch2);
+                base_currency_editext.setText("");
+                base_currency_editext.addTextChangedListener(watch2);
             }
         }
 
@@ -101,27 +106,34 @@ public class ETHconversion extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             float etheriumRate;
-            int etherium;
+            int etherium= 1;
             double answer;
-            String value2;
+            String inputValue;
             double base_currency;
 
-            etheriumRate = Float.parseFloat(value);
-            etherium = 1;
-            value2 = base_text.getText().toString();
+            //convert the exchange rate(string) to float for easy calculation
+            etheriumRate = Float.parseFloat(xchange_rate);
 
-            if (!value2.isEmpty()) {
+            //get data from base_currency_editext
+            inputValue = base_currency_editext.getText().toString();
 
+            if (!inputValue.isEmpty()) {
                 crypto_currency_editext.removeTextChangedListener(watch1);
-                base_currency = Float.parseFloat(value2);
+
+                //parsing Inputvalue to float
+                base_currency = Float.parseFloat(inputValue);
+
+                //conversion calculation
                 answer = (base_currency * etherium) / etheriumRate;
+
+                //setting the answer to two decimal place
                 crypto_currency_editext.setText(String.format(Locale.getDefault(), "%.2f", answer));
                 crypto_currency_editext.addTextChangedListener(watch1);
 
 
             }
 
-            if (value2.isEmpty()){
+            if (inputValue.isEmpty()){
                 crypto_currency_editext.removeTextChangedListener(watch2);
                 crypto_currency_editext.setText("");
                 crypto_currency_editext.addTextChangedListener(watch1);
@@ -135,69 +147,6 @@ public class ETHconversion extends AppCompatActivity {
     };
 
 
-
- /*   crypto_currency_editext.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                base_text.addTextChangedListener(this);
-
-            }
-        });
-
-
-        base_text.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                float etheriumRate;
-
-                int etherium;
-                double answer;
-                String value2;
-                double base_currency;
-
-                etheriumRate = Float.parseFloat(value);
-                etherium = 1;
-                value2 = base_text.getText().toString();
-
-                if (!value2.isEmpty()) {
-
-                    crypto_currency_editext.removeTextChangedListener();
-                    base_currency = Float.parseFloat(value2);
-                    answer = (base_currency * etherium) / etheriumRate;
-                    crypto_currency_editext.setText(String.format(Locale.getDefault(), "%.2f", answer));
-
-
-                }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
-            }
-        });
-
-        */
 
 
 

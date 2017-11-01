@@ -31,7 +31,10 @@ public class Bitcoin extends AppCompatActivity {
     private List<CurrencyItems> currencyItemsList;
 
     String currencies = "NGN,USD,EUR,GBP,RUB,KWD,BHD,EGP,INR,KES,CNY,AUD,ZAR,CHF,SAR,JPY,CAD,BGN,CLP,OMR,QAR";
+
+    //the crytocompare api url
     private String URL_DATA = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC&tsyms=" + currencies;
+
     String NGN, USD, EUR, GBP, RUB, KWD, BHD, EGP, INR, KES, CNY, AUD, ZAR, CHF, SAR, JPY, CAD, BGN, CLP, OMR, QAR;
 
     @Override
@@ -72,6 +75,7 @@ public class Bitcoin extends AppCompatActivity {
 
     private void loadRecyclerView() {
 
+        //progressDialog
         pDialog = new ProgressDialog(Bitcoin.this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
@@ -85,6 +89,8 @@ public class Bitcoin extends AppCompatActivity {
                         pDialog.dismiss();
 
                         try {
+                            //obtaining the data from the JSON
+
                             JSONObject jsonObject = new JSONObject(s);
                             String BTC = jsonObject.getString("BTC");
                             JSONObject o = new JSONObject(BTC);
@@ -111,6 +117,8 @@ public class Bitcoin extends AppCompatActivity {
                             OMR = o.getString("OMR");
                             QAR = o.getString("QAR");
 
+
+                            //Adding the data fetched to the list
 
                             CurrencyItems currency = new CurrencyItems("NGN", NGN, "NIGERIA");
                             currencyItemsList.add(currency);
@@ -192,9 +200,13 @@ public class Bitcoin extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "Unable to retrieve information ", Toast.LENGTH_SHORT)
                                 .show();
+                        pDialog.hide();
                     }
                 });
 
+
+
+        //adding request to request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
